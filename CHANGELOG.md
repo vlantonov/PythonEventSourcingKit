@@ -11,6 +11,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - **GitHub Actions CI** (`.github/workflows/ci.yml`) — automated test pipeline triggered on every push and pull request. Runs a matrix across Python 3.11, 3.12, and 3.13; installs dev dependencies, lints with `ruff`, type-checks with `mypy`, and executes the full `pytest` suite with `--cov` coverage reporting. `fail-fast: false` ensures all matrix legs run to completion.
 
+### Fixed
+
+- **Ruff linting violations** — resolved all issues reported by `ruff check` on first CI run: sorted `__all__` alphabetically in `__init__.py` (RUF022); replaced `timezone.utc` with the `UTC` alias throughout source and tests (UP017); replaced `Decimal("0")` string literals with `Decimal(0)` in `bank_account.py` (FURB157); updated `SQLiteEventStore.__enter__` return annotation to `Self` (PYI034).
+
 ## [0.1.0] - 2026-08-23
 
 ### Added
