@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+
+- **GitHub Actions CI** (`.github/workflows/ci.yml`) — automated test pipeline triggered on every push and pull request. Runs a matrix across Python 3.11, 3.12, and 3.13; installs dev dependencies, lints with `ruff`, type-checks with `mypy`, and executes the full `pytest` suite with `--cov` coverage reporting. `fail-fast: false` ensures all matrix legs run to completion.
+
 ## [0.1.0] - 2026-08-23
 
 ### Added
