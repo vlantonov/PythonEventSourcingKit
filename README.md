@@ -2,6 +2,7 @@
 
 > Minimal, self-contained Python library demonstrating the Event Sourcing pattern with a SQLite backend — zero infrastructure required.
 
+[![CI](https://github.com/vlantonov/PythonEventSourcingKit/actions/workflows/ci.yml/badge.svg)](https://github.com/vlantonov/PythonEventSourcingKit/actions/workflows/ci.yml)
 ![Python](https://img.shields.io/badge/python-3.11%2B-blue)
 ![License](https://img.shields.io/badge/license-MIT-green)
 ![Tests](https://img.shields.io/badge/tests-69%20passed-brightgreen)
