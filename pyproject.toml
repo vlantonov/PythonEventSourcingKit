@@ -4,7 +4,7 @@ build-backend = "hatchling.build"
 
 [project]
 name = "event-sourcing"
-version = "0.1.2"
+version = "0.1.3"
 description = "Minimal Python library implementing Event Sourcing with a SQLite backend."
 requires-python = ">=3.11"
 dependencies = []   # stdlib only: sqlite3, dataclasses, uuid, json, abc
