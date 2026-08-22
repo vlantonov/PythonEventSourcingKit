@@ -13,7 +13,7 @@ class BankAccount(AggregateRoot):
     def __init__(self, aggregate_id: str) -> None:
         super().__init__(aggregate_id)
         self._owner: str = ""
-        self._balance: Decimal = Decimal("0")
+        self._balance: Decimal = Decimal(0)
         self._is_closed: bool = False
 
     # ── factory ──────────────────────────────────────────────────────────────
@@ -22,10 +22,10 @@ class BankAccount(AggregateRoot):
     def open_account(
         cls,
         owner: str,
-        initial_balance: Decimal = Decimal("0"),
+        initial_balance: Decimal = Decimal(0),
     ) -> BankAccount:
         """Generate a UUID aggregate_id, record AccountOpened, return instance."""
-        if initial_balance < Decimal("0"):
+        if initial_balance < Decimal(0):
             raise ValueError(
                 f"initial_balance cannot be negative, got {initial_balance}"
             )
@@ -42,7 +42,7 @@ class BankAccount(AggregateRoot):
         """Raises AccountClosedError if closed; raises ValueError if amount <= 0."""
         if self._is_closed:
             raise AccountClosedError(self.aggregate_id)
-        if amount <= Decimal("0"):
+        if amount <= Decimal(0):
             raise ValueError(f"Deposit amount must be positive, got {amount}")
         self.record("MoneyDeposited", {"amount": str(amount)})
 
@@ -52,7 +52,7 @@ class BankAccount(AggregateRoot):
         """
         if self._is_closed:
             raise AccountClosedError(self.aggregate_id)
-        if amount <= Decimal("0"):
+        if amount <= Decimal(0):
             raise ValueError(f"Withdrawal amount must be positive, got {amount}")
         if amount > self._balance:
             raise InsufficientFundsError(self.aggregate_id, self._balance, amount)

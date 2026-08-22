@@ -1,7 +1,7 @@
 """Tests for Repository rehydration algorithm (FR-18, FR-19, FR-24)."""
 from __future__ import annotations
 
-from datetime import datetime, timezone
+from datetime import UTC, datetime
 from typing import Any
 
 import pytest
@@ -11,7 +11,6 @@ from event_sourcing.domain import SnapshotRecord, StoredEvent
 from event_sourcing.exceptions import AggregateNotFoundError
 from event_sourcing.repository import Repository
 from event_sourcing.sqlite_store import SQLiteEventStore
-
 
 # ── test double ──────────────────────────────────────────────────────────────
 
@@ -58,18 +57,18 @@ def test_rehydrate_full_replay(store: SQLiteEventStore, repo: Repository) -> Non
 def test_rehydrate_with_snapshot(store: SQLiteEventStore, repo: Repository) -> None:
     # Seed events v1–v3, then a snapshot, then events v4–v5
     first_events = [
-        StoredEvent("agg-1", i, "Ticked", {}, datetime.now(timezone.utc))
+        StoredEvent("agg-1", i, "Ticked", {}, datetime.now(UTC))
         for i in range(1, 4)
     ]
     store.append("agg-1", first_events, expected_version=0)
     store.save_snapshot(
-        SnapshotRecord("agg-1", 3, {"count": 3}, datetime.now(timezone.utc))
+        SnapshotRecord("agg-1", 3, {"count": 3}, datetime.now(UTC))
     )
     store.append(
         "agg-1",
         [
-            StoredEvent("agg-1", 4, "Ticked", {}, datetime.now(timezone.utc)),
-            StoredEvent("agg-1", 5, "Ticked", {}, datetime.now(timezone.utc)),
+            StoredEvent("agg-1", 4, "Ticked", {}, datetime.now(UTC)),
+            StoredEvent("agg-1", 5, "Ticked", {}, datetime.now(UTC)),
         ],
         expected_version=3,
     )
@@ -83,7 +82,7 @@ def test_rehydrate_from_snapshot_only(
     store: SQLiteEventStore, repo: Repository
 ) -> None:
     store.save_snapshot(
-        SnapshotRecord("agg-1", 10, {"count": 10}, datetime.now(timezone.utc))
+        SnapshotRecord("agg-1", 10, {"count": 10}, datetime.now(UTC))
     )
     loaded = repo.rehydrate(Counter, "agg-1")
     assert loaded.count == 10

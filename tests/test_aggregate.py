@@ -1,7 +1,7 @@
 """Tests for AggregateRoot base class mechanics (FR-13 – FR-17)."""
 from __future__ import annotations
 
-from datetime import datetime, timezone
+from datetime import UTC, datetime
 from typing import Any
 
 import pytest
@@ -9,7 +9,6 @@ import pytest
 from event_sourcing.aggregate import AggregateRoot
 from event_sourcing.domain import SnapshotRecord, StoredEvent
 from event_sourcing.exceptions import UnknownEventTypeError
-
 
 # ── test double ──────────────────────────────────────────────────────────────
 
@@ -38,7 +37,7 @@ def _stored(
     aggregate_id: str, version: int, event_type: str, payload: dict[str, Any]
 ) -> StoredEvent:
     return StoredEvent(
-        aggregate_id, version, event_type, payload, datetime.now(timezone.utc)
+        aggregate_id, version, event_type, payload, datetime.now(UTC)
     )
 
 
@@ -137,7 +136,7 @@ def test_rehydrate_from_events_only() -> None:
 
 
 def test_rehydrate_from_snapshot_only() -> None:
-    snapshot = SnapshotRecord("agg-1", 7, {"counter": 70}, datetime.now(timezone.utc))
+    snapshot = SnapshotRecord("agg-1", 7, {"counter": 70}, datetime.now(UTC))
     agg = SimpleAggregate.rehydrate("agg-1", [], snapshot)
     assert agg.version == 7
     assert agg.counter == 70
@@ -145,7 +144,7 @@ def test_rehydrate_from_snapshot_only() -> None:
 
 
 def test_rehydrate_from_snapshot_and_events() -> None:
-    snapshot = SnapshotRecord("agg-1", 3, {"counter": 30}, datetime.now(timezone.utc))
+    snapshot = SnapshotRecord("agg-1", 3, {"counter": 30}, datetime.now(UTC))
     events = [
         _stored("agg-1", 4, "Incremented", {"amount": 5}),
         _stored("agg-1", 5, "Incremented", {"amount": 5}),

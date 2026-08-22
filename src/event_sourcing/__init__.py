@@ -13,16 +13,16 @@ from event_sourcing.sqlite_store import SQLiteEventStore
 from event_sourcing.store import EventStore
 
 __all__ = [
-    "StoredEvent",
-    "SnapshotRecord",
-    "EventStore",
+    "AccountClosedError",
+    "AggregateNotFoundError",
     "AggregateRoot",
+    "EventSourcingError",
+    "EventStore",
+    "InsufficientFundsError",
+    "OptimisticConcurrencyError",
     "Repository",
     "SQLiteEventStore",
-    "EventSourcingError",
-    "OptimisticConcurrencyError",
-    "AggregateNotFoundError",
+    "SnapshotRecord",
+    "StoredEvent",
     "UnknownEventTypeError",
-    "InsufficientFundsError",
-    "AccountClosedError",
 ]

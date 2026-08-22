@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-from datetime import datetime, timezone
+from datetime import UTC, datetime
 from typing import TypeVar
 
 from event_sourcing.aggregate import AggregateRoot
@@ -52,7 +52,7 @@ class Repository:
                     aggregate_id=aggregate_id,
                     version=aggregate.version,
                     state=aggregate.snapshot_state(),
-                    taken_at=datetime.now(timezone.utc),
+                    taken_at=datetime.now(UTC),
                 )
             )
 

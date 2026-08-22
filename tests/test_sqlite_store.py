@@ -1,7 +1,7 @@
 """Tests for SQLiteEventStore (FR-03 – FR-12)."""
 from __future__ import annotations
 
-from datetime import datetime, timezone
+from datetime import UTC, datetime
 
 import pytest
 
@@ -21,7 +21,7 @@ def _event(
         version=version,
         event_type=event_type,
         payload=payload if payload is not None else {"v": version},
-        occurred_at=datetime.now(timezone.utc),
+        occurred_at=datetime.now(UTC),
     )
 
 
@@ -76,7 +76,7 @@ def test_payload_round_trip(store: SQLiteEventStore) -> None:
 
 
 def test_occurred_at_round_trip(store: SQLiteEventStore) -> None:
-    now = datetime.now(timezone.utc)
+    now = datetime.now(UTC)
     event = StoredEvent("agg-1", 1, "Foo", {}, now)
     store.append("agg-1", [event], expected_version=0)
     loaded = store.load("agg-1")
@@ -128,7 +128,7 @@ def test_save_and_load_snapshot(store: SQLiteEventStore) -> None:
         aggregate_id="agg-1",
         version=5,
         state={"balance": "100.00", "owner": "Alice"},
-        taken_at=datetime.now(timezone.utc),
+        taken_at=datetime.now(UTC),
     )
     store.save_snapshot(snap)
     loaded = store.load_snapshot("agg-1")
@@ -145,7 +145,7 @@ def test_load_snapshot_none_when_missing(store: SQLiteEventStore) -> None:
 def test_load_snapshot_returns_highest_version(store: SQLiteEventStore) -> None:
     for v in [1, 5, 3]:
         store.save_snapshot(
-            SnapshotRecord("agg-1", v, {"v": v}, datetime.now(timezone.utc))
+            SnapshotRecord("agg-1", v, {"v": v}, datetime.now(UTC))
         )
     snap = store.load_snapshot("agg-1")
     assert snap is not None
@@ -155,7 +155,7 @@ def test_load_snapshot_returns_highest_version(store: SQLiteEventStore) -> None:
 def test_snapshot_does_not_alter_events(store: SQLiteEventStore) -> None:
     store.append("agg-1", [_event("agg-1", 1)], expected_version=0)
     store.save_snapshot(
-        SnapshotRecord("agg-1", 1, {}, datetime.now(timezone.utc))
+        SnapshotRecord("agg-1", 1, {}, datetime.now(UTC))
     )
     assert len(store.load("agg-1")) == 1
 

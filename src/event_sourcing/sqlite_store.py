@@ -4,7 +4,7 @@ import sqlite3
 from datetime import datetime
 from pathlib import Path
 from types import TracebackType
-from typing import Any
+from typing import Any, Self
 
 from event_sourcing._serialisation import decode, encode
 from event_sourcing.domain import SnapshotRecord, StoredEvent
@@ -41,7 +41,7 @@ class SQLiteEventStore(EventStore):
 
     # ── context-manager protocol ─────────────────────────────────────────────
 
-    def __enter__(self) -> SQLiteEventStore:
+    def __enter__(self) -> Self:
         return self
 
     def __exit__(

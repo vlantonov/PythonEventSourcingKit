@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-from datetime import datetime, timezone
+from datetime import UTC, datetime
 from typing import Any, Self
 
 from event_sourcing.domain import SnapshotRecord, StoredEvent
@@ -54,7 +54,7 @@ class AggregateRoot:
             version=next_version,
             event_type=event_type,
             payload=payload,
-            occurred_at=datetime.now(timezone.utc),
+            occurred_at=datetime.now(UTC),
         )
         self.apply(event)  # validates handler exists; updates self.version
         self._pending_events.append(event)

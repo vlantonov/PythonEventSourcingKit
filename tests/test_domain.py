@@ -1,14 +1,13 @@
 """Tests for StoredEvent and SnapshotRecord dataclasses (domain.py)."""
 from __future__ import annotations
 
-from datetime import datetime, timezone
+from datetime import UTC, datetime
 
 import pytest
 
 from event_sourcing.domain import SnapshotRecord, StoredEvent
 
-
-_NOW = datetime.now(timezone.utc)
+_NOW = datetime.now(UTC)
 
 
 def test_stored_event_fields() -> None:
