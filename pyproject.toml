@@ -1,0 +1,25 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "event-sourcing"
+version = "0.0.0"
+description = "Minimal Python library implementing Event Sourcing with a SQLite backend."
+requires-python = ">=3.11"
+dependencies = []   # stdlib only: sqlite3, dataclasses, uuid, json, abc
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=8",
+    "pytest-cov",
+]
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/event_sourcing"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+
+[tool.coverage.run]
+source = ["event_sourcing"]
